@@ -1,7 +1,9 @@
-name: 姣忔棩涓栫晫绠€鎶?
+name: Daily World Briefing
+
 on:
   schedule:
-    # GitHub 浣跨敤 UTC锛?3:00 UTC 瀵瑰簲鍖椾含鏃堕棿 07:00銆?    - cron: "0 23 * * *"
+    # GitHub Actions uses UTC; 23:00 UTC is 07:00 Beijing time.
+    - cron: "0 23 * * *"
   workflow_dispatch:
 
 jobs:
@@ -11,29 +13,31 @@ jobs:
       contents: read
 
     steps:
-      - name: 妫€鍑轰唬鐮?        uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@v4
 
-      - name: 瀹夎 Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: 瀹夎 uv
+      - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
           version: "0.11.26"
 
-      - name: 瀹夎渚濊禆
+      - name: Install dependencies
         run: uv sync
 
-      - name: 鍑嗗閰嶇疆
+      - name: Prepare configuration
         env:
           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
         run: |
           cp data/config.github.json data/config.json
           printf '[\n  "%s"\n]\n' "$EMAIL_ADDRESS" > data/subscribers.json
 
-      - name: 鐢熸垚骞跺彂閫佺畝鎶?        env:
+      - name: Generate and send briefing
+        env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
