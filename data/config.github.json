@@ -6,11 +6,12 @@
                "api_key_env":  "OPENAI_API_KEY",
                "temperature":  0.3,
                "max_tokens":  8192,
+               "supports_json_mode":  false,
                "throttle_sec":  1,
                "languages":  [
                                  "zh"
                              ],
-               "analysis_concurrency":  5,
+               "analysis_concurrency":  2,
                "enrichment_concurrency":  5
            },
     "processing":  {
