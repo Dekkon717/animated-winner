@@ -270,7 +270,7 @@
                   "smtp_username":  "${EMAIL_ADDRESS}",
                   "email_address":  "${EMAIL_ADDRESS}",
                   "password_env":  "EMAIL_PASSWORD",
-                  "sender_name":  "Horizon 每日世界简报",
+                  "sender_name":  "Horizon Daily Briefing",
                   "subscribe_keyword":  "SUBSCRIBE",
                   "unsubscribe_keyword":  "UNSUBSCRIBE"
               }
