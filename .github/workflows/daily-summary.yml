@@ -34,6 +34,7 @@ jobs:
           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
         run: |
           cp data/config.github.json data/config.json
+          sed -i "s|\${EMAIL_ADDRESS}|$EMAIL_ADDRESS|g" data/config.json
           printf '[\n  "%s"\n]\n' "$EMAIL_ADDRESS" > data/subscribers.json
 
       - name: Generate and send briefing
