@@ -326,7 +326,7 @@ class OpenAIClient(AIClient):
         request_kwargs[token_param] = max_tokens
         if include_temperature:
             request_kwargs["temperature"] = temperature
-        if self.provider not in self._NO_RESPONSE_FORMAT:
+        if self.config.supports_json_mode and self.provider not in self._NO_RESPONSE_FORMAT:
             request_kwargs["response_format"] = {"type": "json_object"}
         return await self.client.chat.completions.create(**request_kwargs)
 
