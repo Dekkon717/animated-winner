@@ -1,9 +1,7 @@
-name: 每日世界简报
-
+name: 姣忔棩涓栫晫绠€鎶?
 on:
   schedule:
-    # GitHub 使用 UTC；23:00 UTC 对应北京时间 07:00。
-    - cron: "0 23 * * *"
+    # GitHub 浣跨敤 UTC锛?3:00 UTC 瀵瑰簲鍖椾含鏃堕棿 07:00銆?    - cron: "0 23 * * *"
   workflow_dispatch:
 
 jobs:
@@ -13,29 +11,29 @@ jobs:
       contents: read
 
     steps:
-      - name: 检出代码
-        uses: actions/checkout@v4
+      - name: 妫€鍑轰唬鐮?        uses: actions/checkout@v4
 
-      - name: 安装 Python
+      - name: 瀹夎 Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: 安装 uv
+      - name: 瀹夎 uv
         uses: astral-sh/setup-uv@v6
         with:
           version: "0.11.26"
 
-      - name: 安装依赖
+      - name: 瀹夎渚濊禆
         run: uv sync
 
-      - name: 准备配置
+      - name: 鍑嗗閰嶇疆
+        env:
+          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
         run: |
           cp data/config.github.json data/config.json
           printf '[\n  "%s"\n]\n' "$EMAIL_ADDRESS" > data/subscribers.json
 
-      - name: 生成并发送简报
-        env:
+      - name: 鐢熸垚骞跺彂閫佺畝鎶?        env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
