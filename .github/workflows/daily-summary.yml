@@ -1,0 +1,42 @@
+name: 每日世界简报
+
+on:
+  schedule:
+    # GitHub 使用 UTC；23:00 UTC 对应北京时间 07:00。
+    - cron: "0 23 * * *"
+  workflow_dispatch:
+
+jobs:
+  daily-summary:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安装 uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.26"
+
+      - name: 安装依赖
+        run: uv sync
+
+      - name: 准备配置
+        run: |
+          cp data/config.github.json data/config.json
+          printf '[\n  "%s"\n]\n' "$EMAIL_ADDRESS" > data/subscribers.json
+
+      - name: 生成并发送简报
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+        run: uv run horizon --hours 24
