@@ -1,7 +1,7 @@
 {
     "ai":  {
                "provider":  "openai",
-               "model":  "gpt-4o-mini",
+               "model":  "chatgpt5.6luna",
                "base_url":  "https://www.fucheers.top/v1",
                "api_key_env":  "OPENAI_API_KEY",
                "temperature":  0.3,
