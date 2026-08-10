@@ -92,6 +92,8 @@ class RSSScraper(BaseScraper):
                 published_at = self._parse_date(entry)
                 if not published_at or published_at < since:
                     continue
+                if len(items) >= source.fetch_limit:
+                    break
 
                 # Generate unique ID from feed URL and entry ID
                 feed_id = str(source.url).split("//")[1].replace("/", "_")
