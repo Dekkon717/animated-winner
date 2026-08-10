@@ -260,6 +260,7 @@ class RSSSourceConfig(BaseModel):
     enabled: bool = True
     category: Optional[str] = None
     content_extractor: Optional[str] = None
+    fetch_limit: int = Field(default=10, gt=0)
     profile: ProfileRoute = None
 
 
